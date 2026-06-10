@@ -1,0 +1,2 @@
+# FPGA-Based-Real-Time-Conveyor-Belt-Defect-Detection-System-Using-Image-Processing
+Designed and simulated an FPGA-based real-time conveyor belt defect detection system using Verilog/VHDL in Quartus Prime. The system processes image pixel data, performs grayscale-based analysis, extracts features, and detects defects through threshold comparison, demonstrating FPGA-based industrial inspection and automation concepts.
