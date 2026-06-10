@@ -1,0 +1,26 @@
+Image Pixel Data
+        │
+        ▼
+Input Image Data Module
+        │
+        ▼
+Image Processing Module
+        │
+        ▼
+Threshold Comparison Module
+        │
+        ▼
+Feature Extraction Module
+        │
+        ▼
+Defect Detection Module
+        │
+        ▼
+Output Status Module
+The system begins with the Input Image Data Module, which supplies image pixel values to the FPGA processing pipeline.
+  The Image Processing Module analyzes the incoming pixel data and prepares it for inspection through grayscale processing and feature extraction.
+  The Threshold Comparison Module compares pixel intensities against predefined reference values to identify abnormal regions.
+  Extracted features such as shape, size, and area are then evaluated by the Defect Detection Module.
+  Based on this analysis, the Output Module generates a defect status signal indicating whether the inspected object is defective or non-defective
+  The entire design is implemented using Verilog/VHDL and verified through simulation in Quartus Prime.
+
