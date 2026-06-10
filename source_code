@@ -1,0 +1,135 @@
+# Input Image Module
+module image_input(
+    input clk,
+    output reg [7:0] pixel
+);
+
+always @(posedge clk)
+begin
+    pixel <= pixel + 8'd10;
+end
+
+endmodule
+
+# Threshold Processing Module
+module threshold_detector(
+    input [7:0] pixel,
+    output reg binary_pixel
+);
+
+parameter THRESHOLD = 8'd100;
+
+always @(*)
+begin
+    if(pixel > THRESHOLD)
+        binary_pixel = 1'b1;
+    else
+        binary_pixel = 1'b0;
+end
+
+endmodule
+
+# Defect Detection Module
+module defect_detection(
+    input [7:0] pixel,
+    output reg defect
+);
+
+parameter MIN_PIXEL = 8'd100;
+
+always @(*)
+begin
+    if(pixel < MIN_PIXEL)
+        defect = 1'b1;
+    else
+        defect = 1'b0;
+end
+
+endmodule
+
+# Output Module
+module output_module(
+    input defect,
+    output reg good_led,
+    output reg defect_led
+);
+
+always @(*)
+begin
+    if(defect)
+    begin
+        defect_led = 1'b1;
+        good_led = 1'b0;
+    end
+    else
+    begin
+        defect_led = 1'b0;
+        good_led = 1'b1;
+    end
+end
+
+endmodule
+
+# Top Module
+module conveyor_defect_top(
+    input clk,
+    output good_led,
+    output defect_led
+);
+
+wire [7:0] pixel;
+wire binary_pixel;
+wire defect;
+
+image_input U1(
+    .clk(clk),
+    .pixel(pixel)
+);
+
+threshold_detector U2(
+    .pixel(pixel),
+    .binary_pixel(binary_pixel)
+);
+
+defect_detection U3(
+    .pixel(pixel),
+    .defect(defect)
+);
+
+output_module U4(
+    .defect(defect),
+    .good_led(good_led),
+    .defect_led(defect_led)
+);
+
+endmodule
+
+# Testbench
+`timescale 1ns/1ps
+
+module conveyor_defect_tb;
+
+reg clk;
+wire good_led;
+wire defect_led;
+
+conveyor_defect_top DUT(
+    .clk(clk),
+    .good_led(good_led),
+    .defect_led(defect_led)
+);
+
+always #5 clk = ~clk;
+
+initial
+begin
+    clk = 0;
+
+    #200;
+    $stop;
+end
+
+endmodule
+
+
+
